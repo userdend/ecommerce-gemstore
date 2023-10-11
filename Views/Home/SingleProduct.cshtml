@@ -1,0 +1,200 @@
+﻿@using GemStore.ViewModels
+@model ProductViewModel
+@{
+    ViewData["Title"] = Model.Title;
+    var userIsAuthenticated = TempData["Authenticated"];
+}
+
+<style>
+    .productContainer {
+        margin: 3rem;
+    }
+
+    .singleProduct-img {
+        width: 25%;
+    }
+
+    .singleProduct-detail {
+        width: 50%;
+    }
+
+    .productImage {
+        mix-blend-mode: darken;
+    }
+
+    .notifContainer {
+        display: none;
+    }
+
+    .cartNotif {
+        opacity: 0.1;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .alertBox {
+        position: absolute;
+        top: 50vh;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .addToCartButton {
+        transition: box-shadow 0.2s ease;
+    }
+
+    .addToCartButton:hover {
+        box-shadow: 0px 0px 5px 0px lightblue;
+    }
+</style>
+
+@* Quick Link *@
+<div class="p-2 mb-2" style="font-size:smaller;">
+    <a class="text-decoration-none" 
+    asp-controller="Home" 
+    asp-action="Index">Home</a>
+    &raquo;
+    <a class="text-decoration-none text-capitalize" 
+    asp-controller="Home" 
+    asp-action="ProductBasedOnCategory" 
+    asp-route-item="@Model.Category">@Model.Category</a>
+    &raquo;
+    @Model.Title
+</div>
+
+@* Product Landing Page *@
+<div class="productContainer d-flex flex-wrap">
+    <div class="singleProduct-img">
+        <img class="productImage w-100" src="@Model.Image" />
+    </div>
+    <div class="singleProduct-detail m-auto">
+        <div class="d-flex flex-column justify-content-center" style="height:100%;">
+            <div class="fs-3 mb-3" style="color:#34495E;">@Model.Title</div>
+            <div class="text-secondary mb-3">@Model.Description<span class="text-danger">&ensp;<span style="font-size:smaller;">$</span>@Model.Price</span></div>
+            <div class="productButtonContainer d-flex">
+                @{
+                    if (userIsAuthenticated is true)
+                    {
+                        <form class="me-2" asp-controller="Cart" asp-action="AddIntoCart" method="post">
+                            <input asp-for="Id" hidden />
+                            <input asp-for="Image" hidden />
+                            <input asp-for="Title" hidden />
+                            <input asp-for="Price" hidden />
+                            <input id="addToCartButton" class="addToCartButton btn border border-info text-info rounded-0" type="submit" value="Add to Cart" />
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="addToCartButton btn border border-info text-info rounded-0 me-2" asp-controller="User" asp-action="Login">Add to Cart</a>
+                    }
+                }
+                <button class="btn btn-info text-white rounded-0">Buy Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Product Review *@
+<div class="text-center">
+    <div class="fs-4 mb-3" style="color:#34495E;">Product Review</div>
+    <div class="d-flex justify-content-center mb-5">
+        <div>
+            <div style="width:75px;height:75px;" class="mx-3 mt-3 mb-2 d-flex justify-content-center align-items-center rounded-circle text-secondary border border-secondary">
+                <i class="bi bi-stars fs-3"></i>
+            </div> @*Rating*@
+            <div class="text-muted">@Model.Rating.Rate / 5.0</div>
+        </div>
+        <div>
+            <div style="width:75px;height:75px;" class="mx-3 mt-3 mb-2 d-flex justify-content-center align-items-center rounded-circle text-secondary border border-secondary">
+                <i class="bi bi-bag-check fs-3"></i>
+            </div> @*Sold*@
+            <div class="text-muted">@Model.Rating.Count sold</div>
+        </div>
+        <div>
+            <div style="width:75px;height:75px;" class="mx-3 mt-3 mb-2 d-flex justify-content-center align-items-center rounded-circle text-secondary border border-secondary">
+                <i class="bi bi-tags fs-3"></i>
+            </div> @*Category*@
+            <div class="text-capitalize text-muted">
+                @Model.Category
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Review or Comments *@
+<div>
+    <div class="p-3 mx-5 my-3 bg-white shadow-sm">
+        <div class="d-flex flex-wrap">
+            <div class="me-2">Paul David</div>
+            <div class="me-2">
+                <span class="text-muted small">20 September 2023, 19:33 PM</span>
+            </div>
+            <div class="text-warning">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+            </div>
+        </div>
+        <div class="fw-light text-secondary">Durable, comfortable, and inexpensive!</div>
+    </div>
+
+    <div class="p-3 mx-5 my-3 bg-white shadow-sm">
+        <div class="d-flex flex-wrap">
+            <div class="me-2">Amanda_1995</div>
+            <div class="me-2">
+                <span class="text-muted small">20 September 2023, 19:33 PM</span>
+            </div>
+            <div class="text-warning">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+            </div>
+        </div>
+        <div class="fw-light text-secondary">The seller ship a bit late but its okay, the product work great though.</div>
+    </div>
+
+    <div class="p-3 mx-5 my-3 bg-white shadow-sm">
+        <div class="d-flex flex-wrap">
+            <div class="me-2">Riley12</div>
+            <div class="me-2">
+                <span class="text-muted small">20 September 2023, 19:33 PM</span>
+            </div>
+            <div class="text-warning">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+            </div>
+        </div>
+        <div class="fw-light text-secondary">My wife love it!</div>
+    </div>
+</div>
+
+<div class="notifContainer">
+    <div class="cartNotif bg-dark">
+    </div>
+
+    <div class="alertBox bg-light d-flex align-items-center justify-content-center flex-column p-5 rounded shadow-sm border">
+        <span>Successfully added into cart.</span>
+        <br />
+        <button id="closeNotifButton" class="btn btn-sm btn-primary">OK</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $("#addToCartButton").click(function () {
+            $('html, body').animate({ scrollTop: '0px' }, 300);
+            $(".notifContainer").css("display", "block");
+        });
+
+        $("#closeNotifButton").click(function () {
+            $(".notifContainer").css("display", "none");
+        });
+    </script>
+}

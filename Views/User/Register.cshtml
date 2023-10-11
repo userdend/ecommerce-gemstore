@@ -1,0 +1,46 @@
+﻿@using GemStore.ViewModels
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="d-flex justify-content-center">
+    <form style="background-color:#FBFCFC;" class="border p-5 rounded" method="post">
+        <div class="row pb-2">
+            <h5>Register</h5>
+            @{
+                if (TempData["Success"] != null)
+                {
+                    <span class="text-success small">@TempData["Success"]</span>
+                }
+                if (TempData["Failed"] != null)
+                {
+                    <span class="text-danger small">@TempData["Failed"]</span>
+                }
+            }
+        </div>
+        <div class="mb-3">
+            <label class="text-muted" asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label class="text-muted" asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label class="text-muted" asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+        </div>
+        <button type="submit" class="btn btn-sm btn-primary">Register</button>
+    </form>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+

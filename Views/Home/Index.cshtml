@@ -1,0 +1,61 @@
+﻿@using GemStore.ViewModels
+@model List<ProductViewModel>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<style>
+    .categoryLink {
+        font-size: smaller;
+        opacity: 1;
+        transition: box-shadow 0.2s ease;
+    }
+
+    .categoryLink:hover {
+        cursor: pointer;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    }
+</style>
+
+<div id="category-menu" class="border rounded mb-2">
+    <div class="bg-dark px-2 py-1 text-white rounded-top">Category</div>
+    <div class="d-flex flex-wrap m-1">
+        @foreach (var obj in ViewBag.ListOfCategory)
+        {
+            <div class="categoryLink border m-1 py-1 px-4 rounded text-center">
+                @{
+                    if (obj.Equals("electronics"))
+                    {
+                        <i class="bi bi-headphones fs-3 text-dark"></i><br />
+                    }
+
+                    if (obj.Equals("jewelery"))
+                    {
+                        <i class="bi bi-gem fs-3 text-primary"></i><br />
+                    }
+
+                    if (obj.Equals("men's clothing"))
+                    {
+                        <i class="bi bi-gender-male fs-3 text-info"></i><br />
+                    }
+
+                    if (obj.Equals("women's clothing"))
+                    {
+                        <i class="bi bi-gender-female fs-3 text-danger"></i><br />
+                    }
+                }
+                <a class="text-decoration-none text-capitalize text-secondary" 
+                asp-controller="Home" 
+                asp-action="ProductBasedOnCategory" 
+                asp-route-item="@obj">@obj</a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="border rounded">
+    <div class="bg-dark px-2 py-1 text-white rounded-top">Trending</div>
+    <div class="m-1">
+        @await Html.PartialAsync("_ProductGrid", Model)
+    </div>
+</div>

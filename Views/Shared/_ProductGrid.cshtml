@@ -1,0 +1,40 @@
+﻿@using GemStore.ViewModels
+@model List<ProductViewModel>
+
+<style>
+    .productCard {
+        opacity: 1;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .productCard:hover {
+        box-shadow: 1px 1px 5px 1px rgba(0,0,0,0.75);
+        cursor: pointer;
+    }
+
+    .productLabelCategory, .productLabelReview {
+        font-size: smaller;
+    }
+</style>
+
+<div class="d-flex flex-wrap">
+    @foreach (var obj in Model)
+    {
+        <div class="productCard border bg-white p-1 m-1" style="width:fit-content;">
+            <img src="@obj.Image" style="width:150px;height:150px;object-fit:cover;" />
+            <div class="p-2" style="width:150px;">
+                <div class="text-truncate">
+                    <a style="font-size:smaller;color:#34495E;" 
+                    class="text-decoration-none" 
+                    asp-controller="Home" 
+                    asp-action="SingleProduct" 
+                    asp-route-item="@obj.Title" 
+                    asp-route-id="@obj.Id">@obj.Title</a>
+                </div>
+                <span class="text-danger"><span style="font-size:smaller;">$</span>@obj.Price</span><br />
+                <span class="productLabelReview text-muted text-secondary">@obj.Rating.Count sold</span><br />
+                <span class="productLabelCategory text-muted text-capitalize">@obj.Category</span>
+            </div>
+        </div>
+    }
+</div>

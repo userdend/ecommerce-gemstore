@@ -1,0 +1,45 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+}
+
+@media only screen and (max-width: 600px) {
+    .productContainer {
+        flex-direction: column;
+        align-items: center;
+        margin: 0rem;
+    }
+
+    .productContainer .singleProduct-img {
+        width: 75%;
+    }
+
+    .productContainer .singleProduct-detail {
+        width: 100%;
+    }
+
+    .singleProduct-detail > div {
+        text-align: center;
+    }
+
+    .productButtonContainer {
+        justify-content: center;
+    }
+}
+
+#addToCartButton:hover {
+    opacity: 0.5;
+}

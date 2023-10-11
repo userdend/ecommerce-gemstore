@@ -1,0 +1,36 @@
+﻿@using GemStore.ViewModels
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="d-flex justify-content-center">
+    <form style="background-color:#FBFCFC;" class="border p-5 rounded" method="post">
+        <div class="row mb-2 text-center">
+            <h5>Login</h5>
+            @{
+                if (TempData["Message"] != null)
+                {
+                    <span class="text-danger small">@TempData["Message"]</span>
+                }
+            }
+        </div>
+        <div class="mb-3">
+            <label class="text-muted" asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label class="text-muted" asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger small"></span>
+        </div>
+        <button type="submit" class="btn btn-sm btn-primary">Login</button>
+    </form>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

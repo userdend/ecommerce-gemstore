@@ -1,0 +1,19 @@
+﻿@using GemStore.ViewModels
+@model List<ProductViewModel>
+@{
+    ViewData["Title"] = Model[0].Category;
+}
+
+<div class="p-2 mb-2" style="font-size:smaller;">
+    <a class="text-decoration-none" asp-controller="Home" asp-action="Index">Home</a>
+    &raquo;
+    <span class="text-capitalize">@Model[0].Category</span>
+</div>
+
+<div class="d-flex">
+    <div class="">
+        <ul id="product-listing" class="list-group">
+            @await Html.PartialAsync("_ProductGrid", Model)
+        </ul>
+    </div>
+</div>

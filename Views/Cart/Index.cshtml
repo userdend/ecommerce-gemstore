@@ -1,0 +1,67 @@
+﻿@using GemStore.ViewModels
+@model List<CartViewModel>
+@{
+    ViewData["Title"] = "Index";
+    var totalPriceForAllItem = 0.00;
+    var totalItem = 0;
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered shadow-sm">
+        <thead class="table-dark">
+            <tr class="text-center">
+                <td>Image</td>
+                <td>Title</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Option</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Count is 0)
+                {
+                    <tr>
+                        <td class="text-center text-muted small" colspan="5">
+                            No item found in cart.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var obj in Model)
+                    {
+                        var totalPriceOfCurrentItem = obj.ProductPrice * obj.Quantity;
+                        totalPriceForAllItem += totalPriceOfCurrentItem;
+                        totalItem += obj.Quantity;
+
+                        <tr class="align-middle text-center">
+                            <td>
+                                <img src="@obj.ProductImage" style="width:100px;height:100px;object-fit:cover;" />
+                            </td>
+                            <td class="small text-muted">@obj.ProductName</td>
+                            <td class="text-danger"><span class="small">$</span>@totalPriceOfCurrentItem</td>
+                            <td class="small text-muted">@obj.Quantity</td>
+                            <td>
+                                <form asp-action="RemoveFromCart" method="post">
+                                    <input asp-for="@obj.Id" hidden />
+                                    <input class="btn btn-sm btn-danger" type="submit" value="Remove" />
+                                </form>
+                            </td>
+                        </tr>    
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr class="text-center">
+                <td colspan="2"></td>
+                <td class="text-danger"><span class="small">$</span>@totalPriceForAllItem</td>
+                <td class="small text-muted">@totalItem</td>
+                <td>
+                    <a class="btn btn-sm btn-warning">Checkout</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
